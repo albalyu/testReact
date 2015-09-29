@@ -70,7 +70,7 @@ var UserTable = React.createClass({
     }
 });
 
-// Чекбокс с кнопкой
+// Чекбокс
 var CheckedBar = React.createClass({
     handleChange: function() {
         // Фиксируем состояние главного чекбокса
@@ -86,6 +86,20 @@ var CheckedBar = React.createClass({
         }.bind(this));
     },
 
+    render: function() {
+        return (
+            <input
+                type="checkbox"
+                checked={this.props.inChecked}
+                ref="inCheckedInput"
+                onChange={this.handleChange}
+            />
+        );
+    }
+});
+
+// Кнопка
+var BtnBar = React.createClass({
     handleClick: function() {
         var ids = '';
 
@@ -100,25 +114,35 @@ var CheckedBar = React.createClass({
         var msg = ids != '' ? 'Выбрано: ' + ids : 'Ничего не выбрано';
 
         console.log(msg);
-        document.getElementById('consol').innerHTML = msg;
+        document.getElementById('console').innerHTML = msg;
     },
 
     render: function() {
         return (
+            <input
+                type="button"
+                value="Show selected id's"
+                onClick={this.handleClick}
+            />
+        );
+    }
+});
+
+// Чекбокс с кнопкой
+var TopBar = React.createClass({
+    render: function() {
+        return (
             <form>
-                <input
-                    type="checkbox"
-                    checked={this.props.inChecked}
-                    ref="inCheckedInput"
-                    onChange={this.handleChange}
+                <CheckedBar
+                    inChecked={this.props.inChecked}
+                    onUserInput={this.props.onUserInput}
+                    users={this.props.users}
                 />
 
                 <span>&nbsp;&nbsp;&nbsp;</span>
 
-                <input
-                    type="button"
-                    value="Show selected id's"
-                    onClick={this.handleClick}
+                <BtnBar
+                    users={this.props.users}
                 />
             </form>
         );
@@ -142,7 +166,7 @@ var AllContent = React.createClass({
     render: function() {
         return (
             <div>
-                <CheckedBar
+                <TopBar
                     inChecked={this.state.inChecked}
                     onUserInput={this.handleUserInput}
                     users={this.props.users}
@@ -151,7 +175,7 @@ var AllContent = React.createClass({
                     users={this.props.users}
                 />
             <p
-                id="consol"
+                id="console"
             />
             </div>
 
